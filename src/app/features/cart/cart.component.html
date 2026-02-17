@@ -1,1 +1,115 @@
-<p>cart works!</p>
+<section class="p-6 my-16 bg-6 rounded-2xl shadow-sm">
+  <div class="grid sm:grid-cols-12 gap-8">
+
+    <!-- 🛒 Cart Items -->
+    <div class="sm:col-span-8 bg-white rounded-2xl shadow-md p-6">
+
+      <div class="flex justify-between items-center mb-6 border-b pb-4 border-5">
+        <h1 class="text-2xl font-bold text-main capitalize">
+          Shopping Cart
+        </h1>
+
+        @if(cartDetailsData().products){
+        <span class="bg-5 text-main px-3 py-1 rounded-full text-sm font-semibold">
+          {{cartDetailsData().products.length}} Items
+        </span>
+        }
+      </div>
+
+      @for (item of cartDetailsData().products; track item.product._id) {
+
+      <div class="grid sm:grid-cols-12 gap-4 items-center py-5 border-b border-6">
+
+        <!-- Product Image -->
+        <div class="sm:col-span-2">
+          <img [src]="item.product.imageCover" [alt]="item.product.title"
+            class="w-full h-24 object-contain rounded-lg bg-6 p-2">
+        </div>
+
+        <!-- Product Info -->
+        <div class="sm:col-span-10">
+          <div class="flex justify-between items-center">
+
+            <h3 class="font-semibold text-cecond text-lg">
+              {{item.product.title}}
+            </h3>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center gap-4">
+
+              <div class="flex items-center border border-4 rounded-lg overflow-hidden">
+
+                <button (click)="updateProductCount(item.product._id , item.count - 1)" class="px-3 py-1 bg-5 hover:bg-4 transition">
+                  -
+                </button>
+
+                <span class="px-4 font-semibold text-main">
+                  {{item.count}}
+                </span>
+
+                <button (click)="updateProductCount(item.product._id , item.count + 1)" class="px-3 py-1 bg-5 hover:bg-4 transition">
+                  +
+                </button>
+
+              </div>
+
+              <!-- Delete Button -->
+              <button (click)="removeProductItemFromCart(item.product._id)"
+                class="text-red-500 hover:text-red-700 transition text-lg">
+                <i class="fas fa-trash-can"></i>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Price -->
+          <span class="block mt-3 font-bold text-main text-lg">
+            {{item.price * item.count | currency:'GBP'}}
+          </span>
+
+        </div>
+      </div>
+
+      } @empty {
+
+      <div class="text-center py-16 text-3">
+        <h2 class="text-2xl font-semibold">Your cart is empty 🛒</h2>
+        <p class="mt-2 text-sm">Looks like you haven’t added anything yet.</p>
+      </div>
+
+      }
+
+    </div>
+
+    <!-- 📦 Order Summary -->
+    <div class="sm:col-span-4">
+
+      <div class="bg-white rounded-2xl shadow-md p-6 sticky top-24">
+
+        <h2 class="text-xl font-bold text-main mb-6 capitalize">
+          Order Summary
+        </h2>
+
+        <div class="flex justify-between mb-4 text-cecond font-medium">
+          <span>Total Price</span>
+          <span class="font-bold text-main">
+            {{cartDetailsData().totalCartPrice | currency:'GBP'}}
+          </span>
+        </div>
+
+       <button
+  [routerLink]="['/checkout', cartDetailsData()._id]"
+  class="w-full mt-4 py-3 rounded-xl font-semibold text-white
+         bg-main
+         hover:bg-cecond
+         transition-all duration-300 shadow-md hover:shadow-lg">
+  Proceed to Checkout
+</button>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

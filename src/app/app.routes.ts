@@ -1,80 +1,39 @@
 import { Routes } from '@angular/router';
-import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
-import { LoginComponent } from './core/auth/login/login.component';
-import { RegisterComponent } from './core/auth/register/register.component';
-import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
-import { HomeComponent } from './features/home/home.component';
-import { ProductsComponent } from './features/products/products.component';
-import { CategoriesComponent } from './features/categories/categories.component';
-import { BrandsComponent } from './features/brands/brands.component';
-import { CartComponent } from './features/cart/cart.component';
-import { CheckoutComponent } from './features/checkout/checkout.component';
-import { DetailsComponent } from './features/details/details.component';
-import { NotfoundComponent } from './features/notfound/notfound.component';
+import { guestGuard } from './core/guards/guest-guard';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
-  {path:'',
-    redirectTo:'home',
-    pathMatch:'full'},
   {
-    path:'',
-    component: AuthLayoutComponent,
-    children:[
-      {
-        path:'login',
-        component: LoginComponent,
-        title: 'Login'
-      },
-      {
-        path:'register',
-        component: RegisterComponent,
-        title: 'Register'
-      }
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  // Layout للـ Guests (Login/Register)
+  {
+    path: '',
+    loadComponent: () => import('./core/layouts/auth-layout/auth-layout.component')
+      .then(m => m.AuthLayoutComponent),
+    canActivate: [guestGuard],
+    children: [
+      { path: 'login', loadComponent: () => import('./core/auth/login/login.component').then(m => m.LoginComponent), title: 'Login' },
+      { path: 'register', loadComponent: () => import('./core/auth/register/register.component').then(m => m.RegisterComponent), title: 'Register' }
     ]
   },
+  // Layout للـ Authenticated Users
   {
-    path:'',
-    component: MainLayoutComponent,
-    children:[
-      {
-        path:'home',
-        component:HomeComponent,
-        title: 'Home'
-      },
-      {
-        path:'products',
-        component:ProductsComponent,
-        title: 'Products'
-      },
-      {
-        path:'categories',
-        component:CategoriesComponent,
-        title: 'Categories'
-      },
-      {
-        path:'brands',
-        component:BrandsComponent,
-        title: 'Brands'
-      },
-      {
-        path:'cart',
-        component:CartComponent,
-        title: 'Cart'
-      },
-      {
-        path:'checkout',
-        component:CheckoutComponent,
-        title: 'Checkout'
-      },
-      {
-        path:'details/:slug/:id',
-        component:DetailsComponent,
-        title: 'Details'
-      }
+    path: '',
+    loadComponent: () => import('./core/layouts/main-layout/main-layout.component')
+      .then(m => m.MainLayoutComponent),
+    canActivate: [authGuard],
+    children: [
+      { path: 'home', loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent), title: 'Home' },
+      { path: 'products', loadComponent: () => import('./features/products/products.component').then(m => m.ProductsComponent), title: 'Products' },
+      { path: 'categories', loadComponent: () => import('./features/categories/categories.component').then(m => m.CategoriesComponent), title: 'Categories' },
+      { path: 'brands', loadComponent: () => import('./features/brands/brands.component').then(m => m.BrandsComponent), title: 'Brands' },
+      { path: 'cart', loadComponent: () => import('./features/cart/cart.component').then(m => m.CartComponent), title: 'Cart' },
+      { path: 'checkout/:id', loadComponent: () => import('./features/checkout/checkout.component').then(m => m.CheckoutComponent), title: 'Checkout' },
+      { path: 'allorders', loadComponent: () => import('./features/allorders/allorders.component').then(m => m.AllordersComponent), title: 'Orders' },
+      { path: '**', loadComponent: () => import('./features/notfound/notfound.component').then(m => m.NotfoundComponent), title: 'Not Found' }
     ]
-  },
-  {path:'**',
-    component: NotfoundComponent,
-    title: 'Not Found'
   }
 ];

@@ -12,154 +12,168 @@
     </div>
 
     <!-- Form -->
-    <form (ngSubmit)="registerForm" [formGroup]="registerForm" class="space-y-6">
+    <form (ngSubmit)="SubmitRegisterForm()" [formGroup]="registerForm" class="space-y-5">
 
       <!-- Name -->
-      <div class="relative z-0 w-full group">
-        <input formControlName="name" type="text" id="name" class="main-input" placeholder=" " />
+      <div>
         @let nameControl = registerForm.get('name');
+
+        <label for="name" class="main-label">Full Name</label>
+
+        <input
+          formControlName="name"
+          type="text"
+          id="name"
+          placeholder="Enter your full name"
+          class="main-input"
+          [class.input-error]="nameControl?.errors && nameControl?.touched"
+        />
+
         @if(nameControl?.errors && nameControl?.touched){
-        <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-          role="alert">
-          <span class="sr-only">Danger</span>
-          <div>
-            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-              @if(nameControl?.errors?.['required']){
-              <li>Full Name is required</li>
-              }
-              @else if (nameControl?.errors?.['minlength']) {
-              <li>Full Name must be at least 3 characters long</li>
-              }
-              @else if (nameControl?.errors?.['maxlength']) {
-              <li>Full Name must be at most 20 characters long</li>
-              }
-            </ul>
-          </div>
-        </div>
+          <p class="mt-2 text-sm text-red-500">
+            @if(nameControl?.errors?.['required']){
+              Full Name is required
+            }
+            @else if (nameControl?.errors?.['minlength']) {
+              Minimum 3 characters required
+            }
+            @else if (nameControl?.errors?.['maxlength']) {
+              Maximum 20 characters allowed
+            }
+          </p>
         }
-        <label for="name" class="main-label group-hover:text-main">
-          Full Name
-        </label>
       </div>
 
       <!-- Email -->
-      <div class="relative z-0 w-full group">
-        <input formControlName="email" type="email" id="email" class="main-input" placeholder=" " />
-        @let emailControl =registerForm.get('email');
+      <div>
+        @let emailControl = registerForm.get('email');
+
+        <label for="email" class="main-label">Email Address</label>
+
+        <input
+          formControlName="email"
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          class="main-input"
+          [class.input-error]="emailControl?.errors && emailControl?.touched"
+        />
+
         @if(emailControl?.errors && emailControl?.touched){
-        <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-          role="alert">
-          <span class="sr-only">Danger</span>
-          <div>
-            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-              @if(emailControl?.errors?.['required']){
-              <li>Email is required</li>
-              }
-              @else if (emailControl?.errors?.['email']) {
-              <li>Email is not valid</li>
-              }
-            </ul>
-          </div>
-        </div>
+          <p class="mt-2 text-sm text-red-500">
+            @if(emailControl?.errors?.['required']){
+              Email is required
+            }
+            @else if (emailControl?.errors?.['email']) {
+              Invalid email format
+            }
+          </p>
         }
-        <label for="email" class="main-label group-hover:text-main">
-          Email Address
-        </label>
       </div>
 
       <!-- Password -->
-      <div class="relative z-0 w-full group">
-        <input formControlName="password" type="password" id="password" class="main-input" placeholder=" " />
+      <div>
         @let passwordControl = registerForm.get('password');
+
+        <label for="password" class="main-label">Password</label>
+
+        <input
+          formControlName="password"
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          class="main-input"
+          [class.input-error]="passwordControl?.errors && passwordControl?.touched"
+        />
+
         @if(passwordControl?.errors && passwordControl?.touched){
-        <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-          role="alert">
-          <span class="sr-only">Danger</span>
-          <div>
-            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-              @if(passwordControl?.errors?.['required']){
-              <li>Password is required</li>
-              }
-              @else if (passwordControl?.errors?.['pattern']) {
-              <li>Password must be Minimum eight characters, at least one upper case English letter, one lower case
-                English letter, one number and one special character</li>
-              }
-            </ul>
-          </div>
-        </div>
+          <p class="mt-2 text-sm text-red-500">
+            @if(passwordControl?.errors?.['required']){
+              Password is required
+            }
+            @else if (passwordControl?.errors?.['pattern']) {
+              Must contain 8+ chars, upper, lower, number & special character
+            }
+          </p>
         }
-        <label for="password" class="main-label group-hover:text-main">
-          Password
-        </label>
       </div>
 
-      <!-- Re-Password -->
-      <div class="relative z-0 w-full group">
-        <input formControlName="rePassword" type="password" id="rePassword" class="main-input" placeholder=" " />
+      <!-- Confirm Password -->
+      <div>
         @let rePassControl = registerForm.get('rePassword');
+
+        <label for="rePassword" class="main-label">Confirm Password</label>
+
+        <input
+          formControlName="rePassword"
+          type="password"
+          id="rePassword"
+          placeholder="Re-enter your password"
+          class="main-input"
+          [class.input-error]="rePassControl?.errors && rePassControl?.touched"
+        />
+
         @if(rePassControl?.errors && rePassControl?.touched){
-        <div
-          class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle">
-          <span class="sr-only">Danger</span>
-          <div>
-            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-              @if(rePassControl?.errors?.['required']){
-              <li>Confirm Password is required</li>
-              }
-              @else if (rePassControl?.errors?.['mismatch']) {
-              <li>Confirm Password does not match Password</li>
-              }
-            </ul>
-          </div>
-        </div>
+          <p class="mt-2 text-sm text-red-500">
+            @if(rePassControl?.errors?.['required']){
+              Confirm Password is required
+            }
+            @else if (rePassControl?.errors?.['mismatch']) {
+              Passwords do not match
+            }
+          </p>
         }
-        <label for="rePassword" class="main-label group-hover:text-main">
-          Confirm Password
-        </label>
       </div>
 
       <!-- Phone -->
-      <div class="relative z-0 w-full group">
-        <input formControlName="phone" type="tel" id="phone" class="main-input" placeholder=" " />
+      <div>
         @let phoneControl = registerForm.get('phone');
+
+        <label for="phone" class="main-label">Phone Number</label>
+
+        <input
+          formControlName="phone"
+          type="tel"
+          id="phone"
+          placeholder="Enter your phone number"
+          class="main-input"
+          [class.input-error]="phoneControl?.errors && phoneControl?.touched"
+        />
+
         @if(phoneControl?.errors && phoneControl?.touched){
-        <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-          role="alert">
-          <span class="sr-only">Danger</span>
-          <div>
-            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-              @if(phoneControl?.errors?.['required']){
-              <li>Phone Number is required</li>
-              }
-              @else if (phoneControl?.errors?.['pattern']) {
-              <li>Phone Number is not valid</li>
-              }
-            </ul>
-          </div>
-        </div>
+          <p class="mt-2 text-sm text-red-500">
+            @if(phoneControl?.errors?.['required']){
+              Phone Number is required
+            }
+            @else if (phoneControl?.errors?.['pattern']) {
+              Invalid phone number
+            }
+          </p>
         }
-        <label for="phone" class="main-label group-hover:text-main">
-          Phone Number
-        </label>
       </div>
 
-      <!-- Button -->
-      <button [disabled]="isLodding()" type="submit" class="w-full mt-4 bg-main text-white py-2.5 rounded-lg font-medium
-               hover:bg-4 transition-all duration-300">
+      <!-- Submit -->
+      <button
+        [disabled]="isLoding()"
+        type="submit"
+        class="w-full mt-4 bg-main text-white py-3 rounded-xl font-medium
+               hover:bg-4 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+      >
         Register
-        @if(isLodding()){
-        <span>
-          <i class="fa-solid fa-spinner animate-spin"></i>
-        </span>
+        @if(isLoding()){
+          <span class="ml-2">
+            <i class="fa-solid fa-spinner animate-spin"></i>
+          </span>
         }
       </button>
+
+      <!-- API Error -->
       @if(errorMessage()){
-      <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-        role="alert">
-        <span class="sr-only">Danger</span>
-        <p>{{errorMessage()}}</p>
-      </div>
+        <div class="mt-4 p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
+          {{ errorMessage() }}
+        </div>
       }
+
     </form>
   </div>
 </section>

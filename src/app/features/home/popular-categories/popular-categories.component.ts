@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { CategoriesService } from '../../../core/services/categories/categories.service';
 import { Categories } from '../../../core/models/categories/categories.interface';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-popular-categories',
@@ -11,6 +12,8 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
   styleUrl: './popular-categories.component.css',
 })
 export class PopularCategoriesComponent implements OnInit {
+  private readonly translateService = inject(TranslateService);
+
 private readonly categoriesService = inject(CategoriesService);
   categoriesList:WritableSignal<Categories[]> = signal<Categories[]>([]);
 
@@ -24,7 +27,20 @@ private readonly categoriesService = inject(CategoriesService);
         console.log(err);
       },
     });
+    this.onLangChange();
   }
+
+onLangChange():void{
+  this.translateService.onLangChange.subscribe({
+    next:(data)=>{
+      this.categoriesCustomoption={
+        ...this.categoriesCustomoption,
+        rtl:data.lang === 'ar' ? true : false,
+      }
+    }
+  })
+}
+
   categoriesCustomoption: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -50,6 +66,8 @@ private readonly categoriesService = inject(CategoriesService);
         items: 4
       }
     },
-    nav: false
+    nav: false,
+    rtl:this.translateService.getCurrentLang() ==='ar' ? true : false ,
+
   }
 }

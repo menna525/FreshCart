@@ -1,28 +1,28 @@
 <section class="min-h-screen flex items-center justify-center bg-6 py-16">
   <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
 
-    <!-- Title -->
+    <!-- Header -->
     <div class="mb-8 text-center">
       <h2 class="text-2xl font-semibold text-main mb-1">
-        Create Account
+        Login
       </h2>
       <p class="text-sm text-gray-500">
-        Sign up to continue
+        Sign in to continue
       </p>
     </div>
 
     <!-- Form -->
     <form (ngSubmit)="SubmitLoginForm()" [formGroup]="loginForm" class="space-y-6">
 
-
       <!-- Email -->
       <div class="relative z-0 w-full group">
         <input formControlName="email" type="email" id="email" class="main-input" placeholder=" " />
+
         @let emailControl = loginForm.get('email');
+
         @if(emailControl?.errors && emailControl?.touched){
         <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
           role="alert">
-          <span class="sr-only">Danger</span>
           <div>
             <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
               @if(emailControl?.errors?.['required']){
@@ -35,6 +35,7 @@
           </div>
         </div>
         }
+
         <label for="email" class="main-label group-hover:text-main">
           Email Address
         </label>
@@ -43,46 +44,54 @@
       <!-- Password -->
       <div class="relative z-0 w-full group">
         <input formControlName="password" type="password" id="password" class="main-input" placeholder=" " />
+
         @let passwordControl = loginForm.get('password');
+
         @if(passwordControl?.errors && passwordControl?.touched){
         <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
           role="alert">
-          <span class="sr-only">Danger</span>
           <div>
             <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
               @if(passwordControl?.errors?.['required']){
               <li>Password is required</li>
               }
               @else if (passwordControl?.errors?.['pattern']) {
-              <li>Password must be Minimum eight characters, at least one upper case English letter, one lower case
-                English letter, one number and one special character</li>
+              <li>
+                Password must start with a capital letter and be 6–11 characters
+                (small letters or numbers only).
+              </li>
               }
             </ul>
           </div>
         </div>
         }
+
         <label for="password" class="main-label group-hover:text-main">
           Password
         </label>
       </div>
 
       <!-- Button -->
-      <button [disabled]="isLodding()" type="submit" class="w-full mt-4 bg-main text-white py-2.5 rounded-lg font-medium
-               hover:bg-4 transition-all duration-300">
-        Register
-        @if(isLodding()){
-        <span>
+      <button type="submit"
+        class="w-full mt-4 bg-main text-white py-2.5 rounded-lg font-medium hover:bg-4 transition-all duration-300 disabled:opacity-70">
+
+        Login
+
+        @if(isLoading()){
+        <span class="ms-2">
           <i class="fa-solid fa-spinner animate-spin"></i>
         </span>
         }
       </button>
+
+      <!-- Error Message -->
       @if(errorMessage()){
-      <div class="flex p-2 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+      <div class="flex p-2 mt-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
         role="alert">
-        <span class="sr-only">Danger</span>
-        <p>{{errorMessage()}}</p>
+        <p>{{ errorMessage() }}</p>
       </div>
       }
+
     </form>
   </div>
 </section>

@@ -1,0 +1,41 @@
+.my-pagination ::ng-deep .ngx-pagination {
+  display: flex;
+  gap: 8px;
+  padding: 0;
+}
+
+.my-pagination ::ng-deep .ngx-pagination li {
+  list-style: none;
+}
+
+.my-pagination ::ng-deep .ngx-pagination a,
+.my-pagination ::ng-deep .ngx-pagination button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: var(--color-6);
+  color: var(--color-main);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+/* Hover */
+.my-pagination ::ng-deep .ngx-pagination a:hover,
+.my-pagination ::ng-deep .ngx-pagination button:hover {
+  background-color: var(--color-4);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Active page */
+.my-pagination ::ng-deep .ngx-pagination .current {
+  background-color: var(--color-main);
+  color: white;
+  border: 1px solid var(--color-cecond);
+}
+
+/* Disabled */
+.my-pagination ::ng-deep .ngx-pagination .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

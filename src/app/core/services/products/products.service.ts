@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment.development';
 })
 export class ProductsService {
   private readonly httpClient=inject(HttpClient);
-  getAllProducts():Observable<productsResponse>{
-    return this.httpClient.get<productsResponse>(environment.baseUrl + 'products');
+  getAllProducts(page:number=1 ,limit:number=40):Observable<productsResponse>{
+    return this.httpClient.get<productsResponse>(environment.baseUrl + `products?page=${page}&limit=${limit}`);
   }
 }

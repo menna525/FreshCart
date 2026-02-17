@@ -1,1 +1,74 @@
-<p>categories works!</p>
+<section class="py-16 bg-gray-50 min-h-screen">
+
+  <div class="container xl:w-[95%]">
+
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-main mb-12">
+      All Categories
+    </h2>
+
+    <!-- Loading -->
+    @if(isLoading()) {
+      <div class="flex justify-center items-center py-20">
+        <span class="text-lg font-medium text-gray-500">
+          Loading categories...
+        </span>
+      </div>
+    }
+
+    <!-- Error -->
+    @else if(isError()) {
+      <div class="text-center py-20">
+        <p class="text-red-500 font-semibold text-lg">
+          Something went wrong. Please try again.
+        </p>
+      </div>
+    }
+
+    <!-- Data -->
+    @else if(categoriesList().length > 0) {
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+        @for (category of categoriesList(); track category._id) {
+
+          <div class="group bg-white rounded-2xl p-6
+                      border shadow-sm hover:shadow-lg
+                      transition-all duration-300 cursor-pointer">
+
+            <div class="w-full aspect-square rounded-xl
+                        bg-gray-100 overflow-hidden
+                        flex items-center justify-center">
+
+              <img [src]="category.image"
+                   [alt]="category.name"
+                   class="max-w-[80%] max-h-[80%]
+                          object-contain
+                          transition-transform duration-500
+                          group-hover:scale-110" />
+            </div>
+
+            <h3 class="mt-5 text-center font-semibold text-lg
+                       text-gray-700 group-hover:text-main
+                       transition-colors duration-300">
+              {{ category.name }}
+            </h3>
+
+          </div>
+        }
+
+      </div>
+
+    }
+
+    <!-- Empty -->
+    @else {
+      <div class="text-center py-24">
+        <p class="text-gray-500 text-xl font-medium">
+          No Categories Found
+        </p>
+      </div>
+    }
+
+  </div>
+
+</section>

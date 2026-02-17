@@ -1,1 +1,45 @@
-<p>checkout works!</p>
+<section class="min-h-screen flex items-center justify-center bg-6 py-16">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+
+    <!-- Header -->
+    <div class="mb-8 text-center">
+      <h2 class="text-2xl font-semibold text-main mb-1">
+        CheckOut
+      </h2>
+      <p class="text-sm text-gray-500">
+        Sign in to continue
+      </p>
+    </div>
+    <!-- Form -->
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmitCheckoutForm()" class="space-y-6">
+      <div formGroupName="shippingAddress">
+        <div class="relative z-0 w-full group">
+          <textarea formControlName="details" id="details" class="main-input" placeholder=" "></textarea>
+          <label for="details" class="main-label group-hover:text-main">
+            delails
+          </label>
+        </div>
+        <div class="relative z-0 w-full group">
+          <input formControlName="phone" type="tel" id="phone" class="main-input" placeholder=" " />
+          <label for="phone" class="main-label group-hover:text-main">
+            phone
+          </label>
+        </div>
+        <div class="relative z-0 w-full group">
+          <input formControlName="city" type="text" id="city" class="main-input" placeholder=" " />
+          <label for="city" class="main-label group-hover:text-main">
+            City
+          </label>
+        </div>
+      </div>
+
+
+      <!-- Button -->
+      <button type="submit"
+        class="w-full mt-4 bg-main text-white py-2.5 rounded-lg font-medium hover:bg-4 transition-all duration-300 disabled:opacity-70">
+        Payment With Visa
+      </button>
+
+    </form>
+  </div>
+</section>

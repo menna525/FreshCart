@@ -12,11 +12,11 @@
     <div class="flex flex-col h-full px-3 pb-3">
       <h3 class="text-sm text-cecond font-medium mb-1">{{cardProduct.category.name}}</h3>
       <h4 class="text-lg font-bold text-main mb-2 truncate" title="{{cardProduct.title}}">
-        {{cardProduct.title}}
+        {{cardProduct.title | split : 2}}
       </h4>
 
       <div class="flex flex-wrap items-center justify-between pb-3">
-        <span class="text-cecond font-semibold text-base">{{cardProduct.price}}</span>
+        <span class="text-cecond font-semibold text-base">{{cardProduct.price | currency : 'GBP'}}</span>
         <span class="flex items-center gap-1 text-yellow-500 font-semibold">
           <i class="fas fa-star"></i> {{cardProduct.ratingsAverage}}
         </span>
@@ -25,7 +25,9 @@
 
   </div>
   <!-- زرار الإضافة -->
-  <button class="btn-main w-full py-2 text-white font-semibold rounded-b-xl
+  <button
+  (click)="addProductItemToCart(cardProduct._id)"
+  class="btn-main w-full py-2 text-white font-semibold rounded-b-xl
            bg-main hover:bg-cecond
            translate-y-[120%] group-hover/card:translate-y-0
            transition-all duration-500">

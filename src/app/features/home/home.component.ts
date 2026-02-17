@@ -5,7 +5,7 @@ import { PopularCategoriesComponent } from "./popular-categories/popular-categor
 
 @Component({
   selector: 'app-home',
-  imports: [PopularProductsComponent, MainSliderComponent, PopularCategoriesComponent],
+  imports: [PopularProductsComponent, MainSliderComponent, PopularCategoriesComponent  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
