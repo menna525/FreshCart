@@ -1,24 +1,30 @@
 import { Component, inject, Input } from '@angular/core';
 import { product } from '../../../core/models/products/product.interface';
 import { RouterLink } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { SplitPipe } from '../../pipes/split-pipe';
 import { CartService } from '../../../features/cart/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { WishlistService } from '../../../features/wishlist/services/wishlist.service';
+import { WishlistComponent } from '../../../features/wishlist/wishlist/wishlist.component';
+
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe , SplitPipe],
+  imports: [ CommonModule , RouterLink, CurrencyPipe , SplitPipe ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css',
 })
 export class CardComponent {
+
   @Input() cardProduct: product = {} as product;
 
 
   private readonly cartService = inject(CartService)
   private readonly toastrService = inject(ToastrService)
+   private readonly wishlistService = inject(WishlistService);
+
 
 
   addProductItemToCart(id:string):void{
@@ -35,4 +41,23 @@ export class CardComponent {
       }
     })
   }
+
+
+isFavorite: boolean = false;
+toggleFavorite(event: Event) {
+  event.stopPropagation();
+  this.isFavorite = !this.isFavorite;
+
+  if (this.isFavorite) {
+    this.wishlistService.addToWishlist(this.cardProduct._id).subscribe({
+      next: res => console.log('Added to wishlist', res),
+      error: err => console.log(err)
+    });
+  } else {
+    this.wishlistService.removeFromWishlist(this.cardProduct._id).subscribe({
+      next: res => console.log('Removed from wishlist', res),
+      error: err => console.log(err)
+    });
+  }
+}
 }

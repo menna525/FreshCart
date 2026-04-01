@@ -3,34 +3,51 @@
          bg-liner-to-b from-color-6 via-color-5 to-color-4
          transition-transform duration-500 hover:scale-105 hover:shadow-2xl">
 
-  <div class="cursor-pointer" [routerLink]="['/details', cardProduct.slug, cardProduct.id]">
-    <img [src]="cardProduct.imageCover" class="w-full h-52 object-contain rounded-t-xl mb-3"
-      [title]="cardProduct.title" />
+  <!-- الصورة + القلب -->
+  <div class="relative cursor-pointer"
+       [routerLink]="['/details', cardProduct.slug, cardProduct.id]">
 
+    <img [src]="cardProduct.imageCover"
+         class="w-full h-52 object-contain rounded-t-xl mb-3"
+         [title]="cardProduct.title" />
+<button (click)="toggleFavorite($event)"
+          class="absolute top-2 right-2 text-2xl z-10 hover:scale-110 transition-transform">
+    <i [ngClass]="isFavorite ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-400'"></i>
+  </button>
 
-    <!-- محتوى المنتج -->
-    <div class="flex flex-col h-full px-3 pb-3">
-      <h3 class="text-sm text-cecond font-medium mb-1">{{cardProduct.category.name}}</h3>
-      <h4 class="text-lg font-bold text-main mb-2 truncate" title="{{cardProduct.title}}">
-        {{cardProduct.title | split : 2}}
-      </h4>
-
-      <div class="flex flex-wrap items-center justify-between pb-3">
-        <span class="text-cecond font-semibold text-base">{{cardProduct.price | currency : 'GBP'}}</span>
-        <span class="flex items-center gap-1 text-yellow-500 font-semibold">
-          <i class="fas fa-star"></i> {{cardProduct.ratingsAverage}}
-        </span>
-      </div>
-    </div>
 
   </div>
-  <!-- زرار الإضافة -->
+
+  <!-- محتوى المنتج -->
+  <div class="flex flex-col h-full px-3 pb-3">
+    <h3 class="text-sm text-cecond font-medium mb-1">
+      {{cardProduct.category.name}}
+    </h3>
+
+    <h4 class="text-lg font-bold text-main mb-2 truncate"
+        title="{{cardProduct.title}}">
+      {{cardProduct.title | split : 2}}
+    </h4>
+
+    <div class="flex flex-wrap items-center justify-between pb-3">
+      <span class="text-cecond font-semibold text-base">
+        {{cardProduct.price | currency : 'GBP'}}
+      </span>
+
+      <span class="flex items-center gap-1 text-yellow-500 font-semibold">
+        <i class="fas fa-star"></i> {{cardProduct.ratingsAverage}}
+      </span>
+    </div>
+  </div>
+
+  <!-- زرار الكارت -->
   <button
-  (click)="addProductItemToCart(cardProduct._id)"
-  class="btn-main w-full py-2 text-white font-semibold rounded-b-xl
+    (click)="addProductItemToCart(cardProduct._id)"
+    class="btn-main w-full py-2 text-white font-semibold rounded-b-xl
            bg-main hover:bg-cecond
            translate-y-[120%] group-hover/card:translate-y-0
            transition-all duration-500">
     Add to Cart
   </button>
+
 </div>

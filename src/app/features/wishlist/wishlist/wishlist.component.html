@@ -1,0 +1,35 @@
+<div class="wishlist-container px-5 py-5">
+  <h2 class="text-2xl font-bold mb-5">My Wishlist</h2>
+
+  @if (wishListDetailsData()!.data!.length > 0) {
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+
+    @for (product of wishListDetailsData().data; track product._id) {
+    <div class="card group/card bg-white rounded-xl shadow-md overflow-hidden flex flex-col items-center p-4">
+
+      <!-- الصورة -->
+      <div class="w-full h-52 flex justify-center items-center bg-gray-50 rounded-t-xl mb-3">
+        <img [src]="product.imageCover" class="max-h-full max-w-full object-contain" />
+      </div>
+
+      <!-- التصنيف -->
+      <h3 class="text-sm text-cecond font-medium mb-1">{{product.category.name}}</h3>
+
+      <!-- العنوان -->
+      <h4 class="text-lg font-bold text-main mb-2 truncate" title="{{product.title}}">
+        {{product.title | split:2}}
+      </h4>
+
+      <!-- السعر -->
+      <span class="text-cecond font-semibold text-base">{{product.price | currency:'GBP'}}</span>
+    </div>
+    }
+
+  </div>
+
+  } @else {
+  <p class="text-center text-gray-500 text-lg">No products in wishlist 😢</p>
+  }
+
+</div>

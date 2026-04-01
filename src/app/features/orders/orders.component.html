@@ -1,0 +1,84 @@
+@if(ordersData().length > 0) {
+<section class="bg-6 py-12">
+  <div class="container xl:w-[95%]">
+    <div class="grid grid-cols-1 gap-6">
+
+      @for(order of ordersData(); track order._id) {
+      <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
+
+        <!-- Order Header -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-200 pb-4 mb-4">
+          <div>
+            <h3 class="text-xl font-semibold text-main mb-1">Order ID: {{order._id}}</h3>
+            <p class="text-gray-600 text-sm">User: {{order.user.name}} - {{order.user.email}}</p>
+            <p class="text-gray-600 text-sm">Phone: {{order.user.phone}}</p>
+          </div>
+          <div class="text-right mt-2 md:mt-0">
+            <span class="text-sm font-medium text-gray-500 block">Payment: {{order.paymentMethodType}}</span>
+            <span class="text-sm font-medium text-gray-500 block">
+              Status:
+              @if(order.isDelivered) { Delivered } @else { Pending }
+            </span>
+            <span class="text-sm font-medium text-gray-500 block">
+              Paid: @if(order.isPaid) { Yes } @else { No }
+            </span>
+          </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="mb-4">
+          <h4 class="font-semibold text-main mb-1">Shipping Address:</h4>
+          <p class="text-gray-600 text-sm">{{order.shippingAddress.details}}, {{order.shippingAddress.city}}
+            @if(order.shippingAddress.postalCode) { - {{order.shippingAddress.postalCode}} } </p>
+          <p class="text-gray-600 text-sm">Phone: {{order.shippingAddress.phone}}</p>
+        </div>
+
+        <!-- Cart Items Table -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-left">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="px-4 py-2">Product</th>
+                <th class="px-4 py-2">Quantity</th>
+                <th class="px-4 py-2">Price</th>
+                <th class="px-4 py-2">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(item of order.cartItems; track item._id) {
+              <tr class="border-b border-gray-200">
+                <td class="px-4 py-2 flex items-center gap-2">
+                  <img [src]="item.product.imageCover" alt="{{item.product.title}}"
+                    class="w-12 h-12 object-cover rounded" />
+                  <span>{{item.product.title}}</span>
+                </td>
+                <td class="px-4 py-2">{{item.count}}</td>
+                <td class="px-4 py-2">{{item.price}} EGP</td>
+                <td class="px-4 py-2">{{item.product.category.name}}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order Total -->
+        <div class="mt-4 text-right font-bold text-main">
+          Total: {{order.totalOrderPrice}} EGP
+        </div>
+
+      </div>
+      }
+
+    </div>
+  </div>
+</section>
+}@else {
+<section class="flex items-center justify-center min-h-[50vh] bg-6">
+  <div class="text-center p-8 bg-white rounded-2xl shadow-md">
+    <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+    <h2 class="text-2xl md:text-3xl font-semibold text-main mb-2">No Orders Found</h2>
+    <p class="text-gray-500">Sorry, there are no orders available right now.</p>
+  </div>
+</section>
+}
